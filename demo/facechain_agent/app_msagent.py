@@ -163,6 +163,7 @@ with gr.Blocks(css=MAIN_CSS_CODE, theme=gr.themes.Soft()) as demo:
                     elem_id="chatbot",
                     elem_classes=["markdown-body"],
                     show_label=True,
+                    value = [[None, PROMPT_START]]
                     )
                 task_history = gr.State([])
             with gr.Row(elem_id="chat-bottom-container"):
