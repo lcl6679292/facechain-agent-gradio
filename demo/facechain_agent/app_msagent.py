@@ -39,18 +39,17 @@ SYSTEM_PROMPT = """<|system|>: 你现在扮演一个Facechain Agent，不断和�
 \n<tool_list>\n"""
 
 INSTRUCTION_TEMPLATE = """【多轮对话历史】
-
-<|user|>: 给我生成一个写真照。
-
-<|assistant|>: 好的，请问您想要什么风格的写真照？
-
-<|user|>: 我想要赛博朋克风。
+<|user|>: 给我生成一个赛博朋克风的吧
 
 <|assistant|>: 好的，我将为您找到这个风格类型。
 正在搜索风格类型：
 <|startofthink|>```JSON\n{\n   "api_name": "style_search_tool",\n    "parameters": {\n      "text": "我想要赛博朋克风。"\n   }\n}\n```<|endofthink|>
 
-现在我需要你提供1-3张照片，请点击图片上传按钮上传你的照片。上传完毕后在对话框里告诉我你已经上传好照片了。
+<|startofexec|>```JSON\n{"result": {"name": "style_search_tool", "value": "赛博朋克(Cybernetics punk)", file_path: "../../styles/leosamsMoonfilm_filmGrain20/Cybernetics_punk.json"}}\n```<|endofexec|>
+
+我已为你找到的风格类型名字是赛博朋克(Cybernetics punk)。
+
+现在我需要你提供1-3张照片，请点击图片上传按钮上传你的照片。上传完毕后在对话框里告诉我你已经上传好照片了。\n\n</s>
 
 <|user|>: 我的照片上传好了。
 
@@ -62,75 +61,28 @@ INSTRUCTION_TEMPLATE = """【多轮对话历史】
 人物lora训练完成。正在生成你选择的赛博朋克风格写真照中：
 <|startofthink|>```JSON\n{\n   "api_name": "facechain_inference_tool",\n    "parameters": {\n   "matched_style_file_path": "../../styles/leosamsMoonfilm_filmGrain20/Cybernetics_punk.json"\n  }\n}\n```<|endofthink|>
 
-写真照已经生成完毕，如果喜欢赶紧下载打印吧！你可以继续生成这类风格的照片或者跟我说换一个风格
+写真照已经生成完毕，如果喜欢赶紧下载打印吧！你可以继续生成这类风格的照片或者跟我说换一个风格\n\n</s>
 
-<|user|>: 再换一个古风风格吧
+<|user|>: 换一个古风的吧
 
 <|assistant|>: 好的，我将首先搜索相关风格，然后再为您生成古风风格的写真
 
-正在搜索风格类型：
-<|startofthink|>```JSON\n{\n   "api_name": "style_search_tool",\n    "parameters": {\n      "text": "再换一个古风风格吧"\n   }\n}\n```<|endofthink|>
+正在搜索风格类型：<|startofthink|>```JSON\n{\n   "api_name": "style_search_tool",\n    "parameters": {\n      "text": "换一个古风的吧"\n   }\n}\n```<|endofthink|>
 
-正在生成古风风格写真照中：
-<|startofthink|>```JSON\n{\n   "api_name": "facechain_inference_tool",\n    "parameters": {\n   "matched_style_file_path": "../../styles/leosamsMoonfilm_filmGrain20/Old_style.json"\n  }\n}\n```<|endofthink|>
+<|startofexec|>```JSON\n{"result": {"name": "style_search_tool", "value": "古风风格(Old style)", file_path: "../../styles/leosamsMoonfilm_filmGrain20/Old_style.json"}}\n```<|endofexec|>
 
-古风写真已经生成完毕，赶紧下载打印吧！你还可以继续生成这类风格的照片或者跟我说换一个风格
+正在生成古风风格写真照中：<|startofthink|>```JSON\n{\n   "api_name": "facechain_inference_tool",\n    "parameters": {\n   "matched_style_file_path": "../../styles/leosamsMoonfilm_filmGrain20/Old_style.json"\n  }\n}\n```<|endofthink|>
+
+古风写真已经生成完毕，赶紧下载打印吧！你还可以继续生成这类风格的照片或者跟我说换一个风格\n\n</s>
+
 【角色扮演要求】
 上面多轮角色对话是提供的创作一个写真照风格要和用户沟通的样例，请按照上述的询问步骤来引导用户完成风格的生成，每次只回复对应的内容，不要生成多轮对话。记住只回复用户当前的提问，不要生成多轮对话，回复不要包含<|user|>后面的内容。
 
 """
 
-# INSTRUCTION_TEMPLATE = """【多轮对话历史】
 
-# <|user|>: 给我生成一个写真照。
-
-# <|assistant|>: 好的，请问你想要什么风格的写真照？
-
-# <|user|>: 我想要赛博朋克风。
-
-# <|assistant|>: 好的，我将为你找到这个风格类型。
-# 正在搜索风格类型：
-
-# <|startofthink|>JSON\n{\n   "api_name": "style_search_tool",\n    "parameters": {\n      "text": "我想要赛博朋克风。"\n   }\n}\n<|endofthink|>
-
-# <|startofexec|>```JSON\n{"result": {"name": "style_search_tool", "value": "赛博朋克(Cybernetics punk)", file_path: "../../styles/leosamsMoonfilm_filmGrain20/Cybernetics_punk.json"}}\n```<|endofexec|>
-
-# 我为你找到的风格类型名字是赛博朋克(Cybernetics punk)。现在我需要你提供1-3张照片，请点击上传照片按钮上传你的照片。
-# 上传完毕后在对话框里告诉我你已经上传好照片了。
-
-# <|user|>: 我的照片上传好了。
-
-# <|assistant|>: 收到，我需要几分钟时间训练你上传的照片。
-# 正在训练人物lora中：
-# <|startofthink|>```JSON\n{\n   "api_name": "facechain_finetune_tool",\n    "parameters": {}\n}\n```<|endofthink|>
-
-# 人物lora训练完成。你要使用你之前选择的赛博朋克(Cybernetics punk)风格生成写真照吗，还是你要更换风格？
-
-# <|user|>: 不换，就用这个风格。
-
-# <|assistant|>: 好的，我将为你生成赛博朋克(Cybernetics punk)风格的写真照。这将需要几分钟时间，请耐心等待。
-# 正在生成写真照中：
-# <|startofthink|>```JSON\n{\n   "api_name": "facechain_inference_tool",\n    "parameters": {\n   "matched_style_file_path": "/home/wsco/wyj2/facechain-agent/styles/leosamsMoonfilm_filmGrain20/Cybernetics_punk.json"\n  }\n}\n```<|endofthink|>
-
-# 写真照已经生成完毕，如果喜欢赶紧下载打印吧！
-
-# <|user|>: 我现在想换个风格，我想要工作风。
-
-# <|assistant|>:好的，我将更新你想要的风格类型。
-# 正在搜索风格类型：<|startofthink|>```JSON\n{\n   "api_name": "style_search_tool",\n    "parameters": {\n      "text": "我现在想换个风格，我想要工作风。"\n   }\n}\n```<|endofthink|>
-
-# 我为你找到的风格类型名字是工作服(Working suit)。
-# 我现在将用前面你上传的照片和新选择的风格生成写真照。
-# 正在生成写真照中：
-# <|startofthink|>```JSON\n{\n   "api_name": "facechain_inference_tool",\n    "parameters": {\n   "matched_style_file_path": "/home/wsco/wyj2/facechain-agent/styles/leosamsMoonfilm_filmGrain20/Working_suit.json"\n  }\n}\n```<|endofthink|>
-
-# 写真照已经生成完毕，如果喜欢赶紧下载打印吧！
-# 【角色扮演要求】
-# 上面多轮角色对话是提供的创作一个写真照风格要和用户沟通的样例，请按照上述的询问步骤来引导用户完成风格的生成，每次只回复对应的内容，不要生成多轮对话。记住只回复用户当前的提问，不要生成多轮对话，回复不要包含<|user|>后面的内容。
-
-# """
-
-KEY_TEMPLATE = """（注意：请参照上述的多轮对话历史流程，但不要生成多轮对话，回复不要包含<|user|>的内容。）"""
+#KEY_TEMPLATE = """（注意：请参照上述的多轮对话历史流程，但不要生成多轮对话，回复不要包含<|user|>的内容。）"""
+KEY_TEMPLATE = ""
 
 
 load_dotenv('../config/.env', override=True)
@@ -231,7 +183,7 @@ with gr.Blocks(css=MAIN_CSS_CODE, theme=gr.themes.Soft()) as demo:
                         "重新生成", elem_id='regenerate_button')
                     
             gr.Examples(
-            examples=['我想要写真照','我想要凤冠霞帔风','我的照片上传好了','不换，就用这个风格','我现在想换个风格，我想要工作风'],
+            examples=['我想要凤冠霞帔风格的写真照','我的照片上传好了','不换，就用这个风格','我现在想换个风格，我想要工作风'],
             inputs=[user_input],
             label="示例",
             elem_id="chat-examples")
