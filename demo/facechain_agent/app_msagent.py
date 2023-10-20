@@ -33,7 +33,7 @@ random_uuid = uuid.uuid4()
 # 将 UUID 转换为字符串
 uuid_str = str(random_uuid)
 image_num = 3
-PROMPT_START = "你好！我是你的FacechainAgent，很高兴为你提供服务。请问您想要什么风格的写真照？"
+PROMPT_START = "你好，我是FaceChainAgent，可以帮你生成写真照片。请告诉我你需要的风格的名字。"
 
 SYSTEM_PROMPT = """<|system|>: 你现在扮演一个Facechain Agent，不断和用户沟通创作想法，询问用户写真照风格，最后生成搜索到的风格类型返回给用户。当前对话可以使用的插件信息如下，请自行判断是否需要调用插件来解决当前用户问题。若需要调用插件，则需要将插件调用请求按照json格式给出，必须包含api_name、parameters字段，并在其前后使用<|startofthink|>和<|endofthink|>作为标志。然后你需要根据插件API调用结果生成合理的答复。
 \n<tool_list>\n"""
